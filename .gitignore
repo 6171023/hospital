@@ -1,2 +1,12 @@
-#python virtual environment path
+#python-related
 .venv/
+__pycache__/
+
+#secrets
+secret.py
+
+#database files
+*.sqlite3
+
+#mac-related
+.DS_Store
