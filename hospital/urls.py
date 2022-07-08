@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from .views import home_redir
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('landing.urls'))
+    path('', home_redir), #redirect to home (landing page)
+    path('home/', include('landing.urls')),
 ]
