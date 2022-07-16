@@ -36,7 +36,7 @@ class Doctor(models.Model):
 
     qualification = models.TextField(max_length=512)
     specialization = models.TextField(max_length=512)
-    years_of_experience = models.IntegerField()
+    years_of_experience = models.PositiveSmallIntegerField()
     email = models.EmailField(max_length=64)
 
     def __str__(self):
