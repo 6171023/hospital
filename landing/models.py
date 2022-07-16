@@ -31,7 +31,7 @@ class Doctor(models.Model):
     gender = models.IntegerField(choices=GENDER_CHOICES)
 
     qualification = models.TextField(max_length=512)
-    specalization = models.TextField(max_length=512)
+    specialization = models.TextField(max_length=512)
     years_of_experience = models.IntegerField()
     email = models.EmailField(max_length=64)
 
