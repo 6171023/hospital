@@ -6,9 +6,12 @@ class Allergy(models.Model):
     def __str__(self):
         return self.name 
 
+#prefix uid with the type of user
+
 class GeneralUser(models.Model):
     #TODO: regex validation for dob and tel 
     name = models.CharField(max_length=256)
+    uid = models.PositiveIntegerField()
 
     GENDER_CHOICES = [(0, 'Male'),(1, 'Female'),(2, 'Other'), (3, 'Do not wish to answer')]
     gender = models.IntegerField(choices=GENDER_CHOICES)
@@ -26,13 +29,14 @@ class Doctor(models.Model):
     #TODO: Make Doctor class with following values:
     #years_of_experience, qualification, specialization, gender, email
     name = models.CharField(max_length=256)
+    uid = models.PositiveIntegerField()
 
     GENDER_CHOICES = [(0, 'Male'),(1, 'Female'),(2, 'Other'), (3, 'Do not wish to answer')]
     gender = models.IntegerField(choices=GENDER_CHOICES)
 
     qualification = models.TextField(max_length=512)
-    specalization = models.TextField(max_length=512)
-    years_of_experience = models.IntegerField()
+    specialization = models.TextField(max_length=512)
+    years_of_experience = models.PositiveSmallIntegerField()
     email = models.EmailField(max_length=64)
 
     def __str__(self):
