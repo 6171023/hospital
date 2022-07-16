@@ -1,15 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital System</title>
-</head>
-<body>
-    <h1>Hospital Reservation</h1>
-    <h3>Welcome!</h3>
+{% extends "landing/base.html" %}
 
-    <div>Current Website Status: {{ status }}</div>
-</body>
-</html>
+{% block title %}: Home{% endblock %}
+
+{% block header %}
+<h1>
+    Welcome to the Hospital Reservation System
+</h1>
+{% endblock %}
+
+{% block content %}
+<span>
+    <a href="../accounts/login/">
+        <button>
+            Login
+        </button>
+    </a>
+    <a href="../accounts/signup/">
+        <button>
+            Sign Up
+        </button>
+    </a>
+</span>
+{% endblock %}
