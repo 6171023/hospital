@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import GeneralUser
 
 
 class UserCreationForm(UserCreationForm):
@@ -22,4 +23,8 @@ class UserCreationForm(UserCreationForm):
             user.save()
         return user
 
-#TODO form for user edit profile
+#form for user edit profile
+class GeneralUserForm(django.forms.ModelForm):
+    class Meta:
+        model = GeneralUser
+        exclude = ['user', 'uid']
