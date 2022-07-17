@@ -14,7 +14,6 @@ class SignUp(generic.CreateView):
     template_name = "registration/signup.html"
 
 def save_profile(request):
-    #TODO, assign unique UID
     profile = GeneralUser.objects.get(user=request.user)
 
     if request.method == 'POST':
@@ -27,6 +26,8 @@ def save_profile(request):
     return render(request, 'landing/profile.html', {'form': form})
 
 def get_doctor(request, uid):
+    if not request.user.is_authenticated:
+        return redirect('/home/')
     template = loader.get_template('landing/doctor_profile.html')
     if request.method == 'GET':
         doctor = Doctor.objects.get(uid=uid)
