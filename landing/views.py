@@ -3,7 +3,7 @@ from django.template import loader
 from django.shortcuts import redirect, render
 
 from .forms import UserCreationForm, GeneralUserForm
-from .models import GeneralUser
+from .models import GeneralUser, Doctor
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -25,6 +25,21 @@ def save_profile(request):
         form = GeneralUserForm(instance=profile)
 
     return render(request, 'landing/profile.html', {'form': form})
+
+def get_doctor(request, uid):
+    template = loader.get_template('landing/doctor_profile.html')
+    if request.method == 'GET':
+        doctor = Doctor.objects.get(uid=uid)
+        context = {
+            'name' : doctor.name,
+            'gender' : doctor.get_gender_display(),
+            'email' : doctor.user.email,
+            'qualification' : doctor.qualification,
+            'specialization' : doctor.specialization,
+            'years_of_experience' : doctor.years_of_experience,
+        }
+
+    return HttpResponse(template.render(context, request))
 
 def home_redir(request):
     return redirect('/home/')

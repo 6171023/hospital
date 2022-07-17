@@ -1,0 +1,20 @@
+{% extends "landing/base.html" %}
+
+{% block title %}: Doctor Profile{% endblock %}
+
+{% block header %}
+<h1>Doctor Profile</h1>
+
+<h2>{{ name }}</h2>
+{% endblock %}
+
+{% block content %}
+<main>
+    Qualification: {{ qualification }} <br>
+    Specification: {{ specialization }} <br>
+    Years of Experience: {{ years_of_experience }} <br>
+    
+    Email Address: {{ email }} <br>
+    Gender: {{ gender }}
+</main>
+{% endblock %}
