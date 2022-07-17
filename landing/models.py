@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 #prefix uid with the type of user
 
 class GeneralUser(models.Model):
-    #TODO: regex validation for dob and tel 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=256)
     uid = models.PositiveIntegerField()

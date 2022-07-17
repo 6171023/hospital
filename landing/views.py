@@ -14,7 +14,7 @@ class SignUp(generic.CreateView):
     template_name = "registration/signup.html"
 
 def save_profile(request):
-    #TODO, random/assign UID
+    #TODO, assign unique UID
     profile = GeneralUser.objects.get(user=request.user)
 
     if request.method == 'POST':
