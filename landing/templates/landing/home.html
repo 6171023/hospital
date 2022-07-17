@@ -1,0 +1,21 @@
+{% extends "landing/base.html" %}
+
+{% block title %}: Home{% endblock %}
+
+{% block header %}
+<h1>
+    Welcome:{% if is_doctor %} Doctor{% endif %} {{ user.name }}
+</h1>
+
+<a href="/accounts/logout"><button>Logout</button></a>
+{% endblock %}
+
+{% block content %}
+    Upcoming Appointments <br>
+
+    {% if not is_doctor %}
+        <button>
+            Reserve an appointment
+        </button>
+    {% endif %}
+{% endblock %}

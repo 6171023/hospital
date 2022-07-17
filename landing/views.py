@@ -15,13 +15,13 @@ class SignUp(generic.CreateView):
 
 def save_profile(request):
     #TODO, random/assign UID
+    profile = GeneralUser.objects.get(user=request.user)
+
     if request.method == 'POST':
-        profile = GeneralUser.objects.get(user=request.user)
         form = GeneralUserForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
     else:
-        profile = GeneralUser.objects.get(user=request.user)
         form = GeneralUserForm(instance=profile)
 
     return render(request, 'landing/profile.html', {'form': form})
@@ -44,6 +44,24 @@ def get_doctor(request, uid):
 def home_redir(request):
     return redirect('/home/')
 
-def index(request):
-    template = loader.get_template('landing/index.html')
-    return HttpResponse(template.render(None, request))
+def home(request):
+    if request.user.is_authenticated:
+        template = loader.get_template('landing/home.html')
+
+        is_doctor = False
+
+        #check first if the user is a doctor, if not then they are a general user
+        try:
+            user = Doctor.objects.get(user=request.user)
+            is_doctor = True
+        except Doctor.DoesNotExist:
+            user = GeneralUser.objects.get(user=request.user)
+
+        context = {
+            'user' : user,
+            'is_doctor' : is_doctor,
+        }
+    else:
+        template = loader.get_template('landing/index.html')
+        context = None
+    return HttpResponse(template.render(context, request))
