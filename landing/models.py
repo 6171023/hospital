@@ -1,15 +1,10 @@
 from django.db import models
-
-class Allergy(models.Model):
-    name = models.CharField(max_length=64)
-
-    def __str__(self):
-        return self.name 
-
+from django.contrib.auth.models import User
 #prefix uid with the type of user
 
 class GeneralUser(models.Model):
     #TODO: regex validation for dob and tel 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=256)
     uid = models.PositiveIntegerField()
 
@@ -17,17 +12,15 @@ class GeneralUser(models.Model):
     gender = models.IntegerField(choices=GENDER_CHOICES)
 
     dob = models.DateField()
-    allergies = models.ManyToManyField(Allergy)
+    allergies = models.CharField(max_length=64)
     address = models.TextField(max_length=512)
     tel = models.CharField(max_length=16)
-    email = models.EmailField(max_length=64)
 
     def __str__(self):
         return self.name 
 
 class Doctor(models.Model):
-    #TODO: Make Doctor class with following values:
-    #years_of_experience, qualification, specialization, gender, email
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=256)
     uid = models.PositiveIntegerField()
 
@@ -37,7 +30,6 @@ class Doctor(models.Model):
     qualification = models.TextField(max_length=512)
     specialization = models.TextField(max_length=512)
     years_of_experience = models.PositiveSmallIntegerField()
-    email = models.EmailField(max_length=64)
 
     def __str__(self):
         return self.name 
