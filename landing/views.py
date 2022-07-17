@@ -14,6 +14,9 @@ class SignUp(generic.CreateView):
     template_name = "registration/signup.html"
 
 def save_profile(request):
+    if not request.user.is_authenticated:
+        return redirect('/home/')
+
     profile = GeneralUser.objects.get(user=request.user)
 
     if request.method == 'POST':
@@ -28,6 +31,7 @@ def save_profile(request):
 def get_doctor(request, uid):
     if not request.user.is_authenticated:
         return redirect('/home/')
+
     template = loader.get_template('landing/doctor_profile.html')
     if request.method == 'GET':
         doctor = Doctor.objects.get(uid=uid)
@@ -41,6 +45,13 @@ def get_doctor(request, uid):
         }
 
     return HttpResponse(template.render(context, request))
+
+def doctor_view(request):
+    if not request.user.is_authenticated:
+        return redirect('/home/')
+
+    template = loader.get_template("landing/doctor_view.html")
+    return HttpResponse(template.render(None, request))
 
 def home_redir(request):
     return redirect('/home/')
