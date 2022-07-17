@@ -1,0 +1,15 @@
+body {
+    overflow-x:hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+footer {
+    position:absolute;
+    text-align:left;
+    bottom:0;
+    width:100%;
+    height:30px;
+}
