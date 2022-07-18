@@ -32,3 +32,11 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.name 
+
+class Reserving(models.Model):
+    guser = models.OneToOneField(GeneralUser, on_delete=models.CASCADE)
+    doctor = models.OneToOneField(Doctor, on_delete=models.CASCADE)
+    date = models.DateField()
+
+    def __str__(self):
+        return self.name 
