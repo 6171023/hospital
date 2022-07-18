@@ -7,6 +7,8 @@ from .models import GeneralUser, Doctor
 from django.urls import reverse_lazy
 from django.views import generic
 
+from itertools import chain
+
 #for OR operator
 from django.db.models import Q 
 
@@ -60,18 +62,23 @@ def doctor_view(request):
         form = DoctorQueryForm(request.POST)
         if form.is_valid():
             cleaned_form = form.cleaned_data
-            print(cleaned_form)
 
             genders = [gender for gender in cleaned_form.values()][:-1]
-            print(f"GENDERS: {genders}")
-            for i,gender in enumerate(genders):
-                print(i)
-                doctor_obj = Doctor.objects.filter(gender=i)
-                print(doctor_obj)
+
+            doctor_obj = []
+            for i, gender in enumerate(genders):
+                if gender:
+                    doctor_obj.append(Doctor.objects.filter(gender=i, years_of_experience__gte=cleaned_form['min_year']))
+            
+            queries = [queries for queries in doctor_obj]
+            template = loader.get_template('landing/doctor_list.html')
+            context = {'queries': queries}
+
+            return HttpResponse(template.render(context, request))
+
     else:
         form = DoctorQueryForm()
-
-    return render(request, 'landing/doctor_view.html', {'form': form})
+        return render(request, 'landing/doctor_view.html', {'form': form})
 
 def home_redir(request):
     return redirect('/home/')
@@ -87,14 +94,15 @@ def home(request):
 
         if user.exists():
             is_doctor = True
+            user = user[0]
         else:
             try:
                 user = GeneralUser.objects.get(user=request.user)
             except GeneralUser.DoesNotExist:
                 return redirect('/accounts/profile/')
-
+    
         context = {
-            'user' : user[0],
+            'user' : user,
             'is_doctor' : is_doctor,
         }
     else:

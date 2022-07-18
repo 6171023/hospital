@@ -1,0 +1,24 @@
+{% extends "landing/base.html" %}
+
+{% block title %}: View Doctors{% endblock %}
+
+{% block header %}
+<h1>View Doctors</h1>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for query in queries %}
+            {% for doctor in query %}
+            <li>
+                Name: {{ doctor }} <br>
+                Qualification: {{ doctor.qualification }} <br>
+                Years of Experience: {{ doctor.years_of_experience }} <br>
+                Specialization: {{ doctor.specialization }}
+            </li><br>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+
+<a href="/home/"><button>Home</button></a>
+{% endblock %}

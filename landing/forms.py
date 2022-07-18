@@ -42,5 +42,4 @@ class DoctorQueryForm(django.forms.Form):
     female = django.forms.BooleanField(required=False)
     other = django.forms.BooleanField(required=False)
 
-    genders = [male, female, other]
     min_year = django.forms.IntegerField()
