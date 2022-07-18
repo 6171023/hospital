@@ -7,6 +7,9 @@ from .models import GeneralUser, Doctor
 from django.urls import reverse_lazy
 from django.views import generic
 
+#for OR operator
+from django.db.models import Q 
+
 # Create your views here.
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
@@ -56,7 +59,15 @@ def doctor_view(request):
     if request.method == 'POST':
         form = DoctorQueryForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
+            cleaned_form = form.cleaned_data
+            print(cleaned_form)
+
+            genders = [gender for gender in cleaned_form.values()][:-1]
+            print(f"GENDERS: {genders}")
+            for i,gender in enumerate(genders):
+                print(i)
+                doctor_obj = Doctor.objects.filter(gender=i)
+                print(doctor_obj)
     else:
         form = DoctorQueryForm()
 
@@ -74,7 +85,7 @@ def home(request):
         #check first if the user is a doctor, if not then they are a general user
         user = Doctor.objects.filter(user=request.user)
 
-        if len(user) == 1:
+        if user.exists():
             is_doctor = True
         else:
             try:
@@ -83,7 +94,7 @@ def home(request):
                 return redirect('/accounts/profile/')
 
         context = {
-            'user' : user,
+            'user' : user[0],
             'is_doctor' : is_doctor,
         }
     else:
