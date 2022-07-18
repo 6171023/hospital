@@ -17,7 +17,10 @@ def save_profile(request):
     if not request.user.is_authenticated:
         return redirect('/home/')
 
-    profile = GeneralUser.objects.get(user=request.user)
+    try:
+        profile = GeneralUser.objects.get(user=request.user)
+    except GeneralUser.DoesNotExist:
+        profile = GeneralUser(user=request.user)
 
     if request.method == 'POST':
         form = GeneralUserForm(request.POST, instance=profile)
@@ -63,11 +66,15 @@ def home(request):
         is_doctor = False
 
         #check first if the user is a doctor, if not then they are a general user
-        try:
-            user = Doctor.objects.get(user=request.user)
+        user = Doctor.objects.filter(user=request.user)
+
+        if len(user) == 1:
             is_doctor = True
-        except Doctor.DoesNotExist:
-            user = GeneralUser.objects.get(user=request.user)
+        else:
+            try:
+                user = GeneralUser.objects.get(user=request.user)
+            except GeneralUser.DoesNotExist:
+                return redirect('/accounts/profile/')
 
         context = {
             'user' : user,
