@@ -36,7 +36,8 @@
     {% for reservation in pending_reservations %}
     <li>
         {% if is_doctor %}
-            <button>Accept</button> <button>Decline</button>
+            <a href="/reservation/{{ reservation.uid }}/accept/"><button>Accept</button></a> 
+            <a href="/reservation/{{ reservation.uid }}/decline/"><button>Decline</button></a> <br>
             Patient: {{ reservation.guser.name }} <br> 
         {% else %}
             Doctor: {{ reservation.doctor.name }} <br> 

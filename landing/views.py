@@ -86,6 +86,24 @@ def doctor_view(request):
         form = DoctorQueryForm()
         return render(request, 'landing/doctor_view.html', {'form': form})
 
+# handles POST requests of accepting a reservation from that specific doctor
+def reservation_handler(request, uid, status):
+    #quick oneliner function to convert from "accept" to True
+    boolstatus = lambda status: True if status=="accept" else False 
+
+    reservation = Reservation.objects.get(uid=uid)
+    if request.method == 'GET':
+        print(request.user)
+        if Doctor.objects.get(user=request.user) == reservation.doctor:
+            print("hi")
+
+            if boolstatus(status):
+                reservation.accepted = True
+                reservation.save()
+            else:
+                reservation.delete()
+    return redirect('/home/')
+
 def home_redir(request):
     return redirect('/home/')
 

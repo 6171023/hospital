@@ -33,6 +33,7 @@ class Doctor(models.Model):
         return self.name 
 
 class Reservation(models.Model):
+    uid = models.AutoField(primary_key=True)
     guser = models.ForeignKey(GeneralUser, on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     date = models.DateField()

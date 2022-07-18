@@ -49,4 +49,4 @@ class ReservationForm(django.forms.ModelForm):
     time = django.forms.TimeField(widget=django.forms.TimeInput(format='%H:%M'))
     class Meta:
         model = Reservation
-        exclude = ['guser', 'doctor']
+        exclude = ['guser', 'doctor', 'accepted']

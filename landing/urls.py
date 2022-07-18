@@ -9,4 +9,5 @@ urlpatterns = [
     path('accounts/profile/', views.save_profile, name='profile'),
     path('doctor/<int:uid>', views.get_doctor, name='get_doctor'),  
     path('view/doctors/', views.doctor_view, name='doctor_view'),
+    path('reservation/<int:uid>/<str:status>/', views.reservation_handler, name='reservation'),
 ]
