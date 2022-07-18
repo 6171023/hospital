@@ -33,9 +33,11 @@ class Doctor(models.Model):
         return self.name 
 
 class Reservation(models.Model):
-    guser = models.OneToOneField(GeneralUser, on_delete=models.CASCADE)
-    doctor = models.OneToOneField(Doctor, on_delete=models.CASCADE)
+    guser = models.ForeignKey(GeneralUser, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     date = models.DateField()
+    time = models.TimeField()
+    accepted = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name 
+        return f"{self.guser.name} - Dr.{self.doctor.name}"

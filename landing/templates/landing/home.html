@@ -11,7 +11,42 @@
 {% endblock %}
 
 {% block content %}
-    Upcoming Appointments <br>
+    <h3>Upcoming Reservations</h3> <br>
+    {% if not accepted_reservations %}
+        No Reservations <br>
+    {% endif %}
+    {% for reservation in accepted_reservations %}
+    <li>
+        {% if is_doctor %}
+            Patient: {{ reservation.guser.name }} <br> 
+        {% else %}
+            Doctor: {{ reservation.doctor.name }} <br> 
+        {% endif %}
+
+        Date: {{ reservation.date }} <br>
+        Time: {{ reservation.time }} <br>
+    </li> <br>
+    {% endfor %}
+    <br>
+
+    <h3>Pending Reservations</h3> <br>
+    {% if not pending_reservations %}
+        No Reservations <br>
+    {% endif %}
+    {% for reservation in pending_reservations %}
+    <li>
+        {% if is_doctor %}
+            <button>Accept</button> <button>Decline</button>
+            Patient: {{ reservation.guser.name }} <br> 
+        {% else %}
+            Doctor: {{ reservation.doctor.name }} <br> 
+        {% endif %}
+
+        Date: {{ reservation.date }} <br>
+        Time: {{ reservation.time }} <br>
+    </li> <br>
+    {% endfor %}
+    <br>
 
     {% if not is_doctor %}
         <a href="/view/doctors/"><button>

@@ -7,19 +7,22 @@
 {% endblock %}
 
 {% block content %}
+    {% if not queries %}
+    No doctor with selected queries found
+    {% endif %}
     <ul>
         {% for query in queries %}
             {% for doctor in query %}
             <li>
                 Name: {{ doctor }} <br>
-                Gender: {{ doctor.get_gender_display }} <br>
                 Qualification: {{ doctor.qualification }} <br>
-                Years of Experience: {{ doctor.years_of_experience }} <br>
-                Specialization: {{ doctor.specialization }}
+                Specialization: {{ doctor.specialization }} <br>
+                <a href="/doctor/{{ doctor.uid }}"><button>View Doctor Profile</button></a>
             </li><br>
             {% endfor %}
         {% endfor %}
     </ul>
 
-<a href="/home/"><button>Home</button></a>
+<a href="/home/"><button>Home</button></a> <br>
+<button onclick="history.back()">Back</button>
 {% endblock %}

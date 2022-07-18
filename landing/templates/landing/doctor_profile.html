@@ -17,6 +17,13 @@
     Email Address: {{ email }} <br>
     Gender: {{ gender }} <br>
 
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Request</button>
+    </form> <br>
+    
     <a href="/home/"><button>Home</button></a>
+    <button onclick="history.back()">Back</button>
 </main>
 {% endblock %}

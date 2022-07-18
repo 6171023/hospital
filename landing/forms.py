@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import GeneralUser
+from .models import GeneralUser, Reservation
 
 
 class UserCreationForm(UserCreationForm):
@@ -31,15 +31,22 @@ class UserCreationForm(UserCreationForm):
 
 #form for user edit profile
 class GeneralUserForm(django.forms.ModelForm):
+    dob = django.forms.DateField(widget=django.forms.SelectDateWidget())
     class Meta:
         model = GeneralUser
         exclude = ['user', 'uid']
 
 #form for querying doctors
 class DoctorQueryForm(django.forms.Form):
-
     male = django.forms.BooleanField(required=False)
     female = django.forms.BooleanField(required=False)
     other = django.forms.BooleanField(required=False)
-
     min_year = django.forms.IntegerField()
+
+#form for requesting reservation
+class ReservationForm(django.forms.ModelForm):
+    date = django.forms.DateField(widget=django.forms.SelectDateWidget())
+    time = django.forms.TimeField(widget=django.forms.TimeInput(format='%H:%M'))
+    class Meta:
+        model = Reservation
+        exclude = ['guser', 'doctor']

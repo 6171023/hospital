@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import redirect, render
 
-from .forms import UserCreationForm, GeneralUserForm, DoctorQueryForm
-from .models import GeneralUser, Doctor
+from .forms import UserCreationForm, GeneralUserForm, DoctorQueryForm, ReservationForm
+from .models import GeneralUser, Doctor, Reservation
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -36,7 +36,18 @@ def get_doctor(request, uid):
         return redirect('/home/')
 
     template = loader.get_template('landing/doctor_profile.html')
-    if request.method == 'GET':
+    if request.method == 'POST':
+        reservation = Reservation(guser=GeneralUser.objects.get(user=request.user), doctor=Doctor.objects.get(uid=uid))
+        form = ReservationForm(request.POST, instance=reservation)
+
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+
+        return redirect('/home/')
+
+    elif request.method == 'GET':
+        form = ReservationForm()
         doctor = Doctor.objects.get(uid=uid)
         context = {
             'name' : doctor.name,
@@ -45,9 +56,10 @@ def get_doctor(request, uid):
             'qualification' : doctor.qualification,
             'specialization' : doctor.specialization,
             'years_of_experience' : doctor.years_of_experience,
+            'form': form,
         }
 
-    return HttpResponse(template.render(context, request))
+    return render(request, 'landing/doctor_profile.html', context)
 
 def doctor_view(request):
     if not request.user.is_authenticated:
@@ -88,17 +100,27 @@ def home(request):
 
         if user.exists():
             is_doctor = True
-            user = user[0]
         else:
-            try:
-                user = GeneralUser.objects.get(user=request.user)
-            except GeneralUser.DoesNotExist:
+            user = GeneralUser.objects.filter(user=request.user)
+
+            if not user.exists():
                 return redirect('/accounts/profile/')
+        user = user[0]
+
+        if is_doctor:
+            pendings = Reservation.objects.filter(doctor=user, accepted=False),
+            accepted = Reservation.objects.filter(doctor=user, accepted=True),
+        else:
+            pendings = Reservation.objects.filter(guser=user, accepted=False),
+            accepted = Reservation.objects.filter(guser=user, accepted=True),
     
         context = {
             'user' : user,
             'is_doctor' : is_doctor,
+            'pending_reservations': pendings[0],
+            'accepted_reservations' : accepted[0],
         }
+
     else:
         template = loader.get_template('landing/index.html')
         context = None
