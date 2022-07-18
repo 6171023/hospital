@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class GeneralUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=256)
-    uid = models.PositiveIntegerField()
+    uid = models.AutoField(primary_key=True)
 
     GENDER_CHOICES = [(0, 'Male'),(1, 'Female'),(2, 'Other'), (3, 'Do not wish to answer')]
     gender = models.IntegerField(choices=GENDER_CHOICES)
@@ -21,7 +21,7 @@ class GeneralUser(models.Model):
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=256)
-    uid = models.PositiveIntegerField()
+    uid = models.AutoField(primary_key=True)
 
     GENDER_CHOICES = [(0, 'Male'),(1, 'Female'),(2, 'Other'), (3, 'Do not wish to answer')]
     gender = models.IntegerField(choices=GENDER_CHOICES)
