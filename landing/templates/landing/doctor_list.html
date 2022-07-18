@@ -12,6 +12,7 @@
             {% for doctor in query %}
             <li>
                 Name: {{ doctor }} <br>
+                Gender: {{ doctor.get_gender_display }} <br>
                 Qualification: {{ doctor.qualification }} <br>
                 Years of Experience: {{ doctor.years_of_experience }} <br>
                 Specialization: {{ doctor.specialization }}
