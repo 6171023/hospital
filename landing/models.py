@@ -33,3 +33,10 @@ class Doctor(models.Model):
     def __str__(self):
         return self.name 
 
+class Reserving(models.Model):
+    guser = models.OneToOneField(User)
+    doctor = models.OneToOneField(User)
+    date = models.DateField()
+
+    def __str__(self):
+        return self.name 
