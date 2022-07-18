@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import redirect, render
 
-from .forms import UserCreationForm, GeneralUserForm
+from .forms import UserCreationForm, GeneralUserForm, DoctorQueryForm
 from .models import GeneralUser, Doctor
 from django.urls import reverse_lazy
 from django.views import generic
@@ -52,9 +52,15 @@ def get_doctor(request, uid):
 def doctor_view(request):
     if not request.user.is_authenticated:
         return redirect('/home/')
+    
+    if request.method == 'POST':
+        form = DoctorQueryForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+    else:
+        form = DoctorQueryForm()
 
-    template = loader.get_template("landing/doctor_view.html")
-    return HttpResponse(template.render(None, request))
+    return render(request, 'landing/doctor_view.html', {'form': form})
 
 def home_redir(request):
     return redirect('/home/')

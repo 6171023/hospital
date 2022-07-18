@@ -34,3 +34,13 @@ class GeneralUserForm(django.forms.ModelForm):
     class Meta:
         model = GeneralUser
         exclude = ['user', 'uid']
+
+#form for querying doctors
+class DoctorQueryForm(django.forms.Form):
+
+    male = django.forms.BooleanField(required=False)
+    female = django.forms.BooleanField(required=False)
+    other = django.forms.BooleanField(required=False)
+
+    genders = [male, female, other]
+    min_year = django.forms.IntegerField()
