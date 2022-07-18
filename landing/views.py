@@ -88,6 +88,9 @@ def doctor_view(request):
 
 # handles POST requests of accepting a reservation from that specific doctor
 def reservation_handler(request, uid, status):
+    if not request.user.is_authenticated:
+        return redirect('/home/')
+
     #quick oneliner function to convert from "accept" to True
     boolstatus = lambda status: True if status=="accept" else False 
 
