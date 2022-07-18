@@ -70,9 +70,8 @@ def doctor_view(request):
                 if gender:
                     doctor_obj.append(Doctor.objects.filter(gender=i, years_of_experience__gte=cleaned_form['min_year']))
             
-            queries = [queries for queries in doctor_obj]
             template = loader.get_template('landing/doctor_list.html')
-            context = {'queries': queries}
+            context = {'queries': doctor_obj}
 
             return HttpResponse(template.render(context, request))
 
