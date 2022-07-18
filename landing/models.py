@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-#uid will be prefixed with the type of user: 1 is GeneralUser and 2 is Doctor
 
 class GeneralUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
