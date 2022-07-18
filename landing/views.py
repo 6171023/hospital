@@ -7,11 +7,6 @@ from .models import GeneralUser, Doctor
 from django.urls import reverse_lazy
 from django.views import generic
 
-from itertools import chain
-
-#for OR operator
-from django.db.models import Q 
-
 # Create your views here.
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
